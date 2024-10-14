@@ -16,7 +16,7 @@ public class Main implements ApplicationListener {
 
     @Override
     public void render() {
-        // Draw your application here.
+        //
     }
 
     @Override
