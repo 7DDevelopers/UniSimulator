@@ -1,11 +1,17 @@
 package com.badlogic.drop;
-
 import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.GL20;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main implements ApplicationListener {
+    ShapeRenderer shape;
     @Override
+
+
     public void create() {
+        shape = new ShapeRenderer();
         // Prepare your application here.
     }
 
@@ -16,7 +22,9 @@ public class Main implements ApplicationListener {
 
     @Override
     public void render() {
-        //
+        shape.begin(ShapeRenderer.ShapeType.Filled);
+        shape.rect(100, 100, 50, 50);
+        shape.end();
     }
 
     @Override
