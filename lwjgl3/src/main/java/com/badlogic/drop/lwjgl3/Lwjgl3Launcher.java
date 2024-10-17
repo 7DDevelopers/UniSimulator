@@ -1,9 +1,12 @@
 package com.badlogic.drop.lwjgl3;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.drop.Main;
 
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Graphics;
 import com.badlogic.gdx.math.Vector2;
 
 /** Launches the desktop (LWJGL3) application. */
@@ -11,7 +14,6 @@ public class Lwjgl3Launcher {
     public static void main(String[] args) {
         if (StartupHelper.startNewJvmIfRequired()) return; // This handles macOS support and helps on Windows.
         createApplication();
-//hello
         Vector2 vec = new Vector2(0,0);
     }
 
@@ -31,10 +33,12 @@ public class Lwjgl3Launcher {
         //// If you remove the above line and set Vsync to false, you can get unlimited FPS, which can be
         //// useful for testing performance, but can also be very stressful to some hardware.
         //// You may also need to configure GPU drivers to fully disable Vsync; this can cause screen tearing.
-        //configuration.setWindowedMode(1000, 1000);
         //// You can change these files; they are in lwjgl3/src/main/resources/ .
         configuration.setWindowIcon("libgdx128.png", "libgdx64.png", "libgdx32.png", "libgdx16.png");
-        configuration.setWindowedMode(704, 320);
+        //configuration.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
+        Graphics.DisplayMode displayMode = Lwjgl3ApplicationConfiguration.getDisplayMode();
+        configuration.setWindowedMode(800, 450);
+
         return configuration;
     }
 }
