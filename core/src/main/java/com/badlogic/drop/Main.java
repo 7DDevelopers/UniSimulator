@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -27,26 +28,33 @@ import java.sql.Time;
 public class Main implements ApplicationListener {
     FitViewport viewport;
 
-    ShapeRenderer shape;
+    InputManager inputManager;
 
     Vector2 clickPos;
 
-    Vector2 pos = new Vector2(100, 100);
-    int yChange = 300;
-    int xChange = 300;
-
     float timerValue = 0;
+
     public static Texture backgroundImage;
+
+    public TileManager tileManager;
+
     private SpriteBatch batch;
+
     @Override
     public void create() {
         viewport = new FitViewport(800, 450);
 
-        shape = new ShapeRenderer();
+        inputManager = new InputManager((OrthographicCamera)viewport.getCamera());
+        //viewport.getCamera().update();
+        //Gdx.app.log("debug", "" + ((OrthographicCamera)viewport.getCamera()).zoom);
+
+        Gdx.input.setInputProcessor(inputManager);
+
         batch = new SpriteBatch();
         // Load the background image
         backgroundImage = new Texture(Gdx.files.internal("map.png"));
-        // Prepare your application here.
+
+        tileManager = new TileManager(13,8);
     }
 
     @Override
@@ -58,23 +66,23 @@ public class Main implements ApplicationListener {
     public void render() {
         handleInput();
 
+        //Update camera
+        viewport.getCamera().update();
+        batch.setProjectionMatrix(viewport.getCamera().combined);
+
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        Gdx.gl.glClearColor(1, 1, 1, 1); // Set clear color (white)
-        Gdx.gl.glClear(Gdx.gl.GL_COLOR_BUFFER_BIT);
 
         // Draw the background image at (0, 0)
         batch.begin();
         batch.draw(backgroundImage, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
         batch.end();
 
-        pos.x += xChange * Gdx.graphics.getDeltaTime();
-        pos.y += yChange * Gdx.graphics.getDeltaTime();
-
-        timerValue += Gdx.graphics.getDeltaTime();
+        //Draw unlockable tiles
+        tileManager.RenderTiles(batch);
 
         //Draw timer
+        timerValue += Gdx.graphics.getDeltaTime();
 
         batch.begin();
         BitmapFont font = new BitmapFont();
@@ -104,8 +112,6 @@ public class Main implements ApplicationListener {
             clickPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
             //Gdx.app.log("debug", clickPos.x + " " + clickPos.y + " : " + viewport.getScreenWidth() + " " + viewport.getScreenHeight());
             viewport.unproject(clickPos);
-
-            pos = clickPos;
         }
     }
 }
