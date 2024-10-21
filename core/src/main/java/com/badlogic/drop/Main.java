@@ -40,6 +40,8 @@ public class Main implements ApplicationListener {
 
     private SpriteBatch batch;
 
+    public int STAGE = 0;
+
     @Override
     public void create() {
         viewport = new FitViewport(800, 450);
@@ -64,6 +66,11 @@ public class Main implements ApplicationListener {
 
     @Override
     public void render() {
+        mainGame();
+
+    }//
+
+    public void mainGame{
         handleInput();
 
         //Update camera
@@ -89,9 +96,7 @@ public class Main implements ApplicationListener {
         font.getData().setScale(5, 5);
         font.draw(batch, String.valueOf(Math.round(timerValue)), 250, 250);
         batch.end();
-
-    }//
-
+    }
     @Override
     public void pause() {
         // Invoked when your application is paused.
