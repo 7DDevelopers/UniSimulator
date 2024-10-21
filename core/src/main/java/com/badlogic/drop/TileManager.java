@@ -14,6 +14,8 @@ public class TileManager {
     int width;
     int height;
 
+    int gridSize = 40;
+
     public TileManager(int width, int height){
         this.width = width;
         this.height = height;
@@ -26,7 +28,6 @@ public class TileManager {
         }
 
         tileTexture = new Texture(Gdx.files.internal("tile.png"));
-        UnlockTile(3,3);
     }
 
     public void RenderTiles(SpriteBatch spriteBatch){
@@ -34,14 +35,14 @@ public class TileManager {
             for (int x = 0; x < width; x++) {
                 if(grid[y][x] != 1) {
                     spriteBatch.begin();
-                    spriteBatch.draw(tileTexture, x * 64 - width, y * 64 - height);
+                    spriteBatch.draw(tileTexture, x * gridSize - width, y * gridSize - height);
                     spriteBatch.end();
                 }
             }
         }
     }
 
-    public void UnlockTile(int x, int y){
-        grid[y][x] = 1;
-    }
+//    public void UnlockTile(int x, int y){
+//        grid[y][x] = 1;
+//    }
 }
