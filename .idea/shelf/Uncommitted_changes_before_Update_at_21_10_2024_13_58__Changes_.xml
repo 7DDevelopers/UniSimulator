@@ -1,0 +1,87 @@
+<changelist name="Uncommitted_changes_before_Update_at_21_10_2024_13_58_[Changes]" date="1729515570636" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_10_2024_13_58_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 21/10/2024 13:58 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value=".gradle/8.10.1/fileHashes/fileHashes.lock" />
+    <option name="AFTER_PATH" value=".gradle/8.10.1/fileHashes/fileHashes.lock" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_10_2024_13_58_[Changes]/fileHashes.lock" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".gradle/8.10.1/fileHashes/resourceHashesCache.bin" />
+    <option name="AFTER_PATH" value=".gradle/8.10.1/fileHashes/resourceHashesCache.bin" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_10_2024_13_58_[Changes]/resourceHashesCache.bin" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="lwjgl3/build/tmp/compileJava/previous-compilation-data.bin" />
+    <option name="AFTER_PATH" value="lwjgl3/build/tmp/compileJava/previous-compilation-data.bin" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_10_2024_13_58_[Changes]/previous-compilation-data.bin" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="core/build/classes/java/main/com/badlogic/drop/InputManager.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="core/build/tmp/compileJava/compileTransaction/stash-dir/TileManager.class.uniqueId1" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="core/build/classes/java/main/com/badlogic/drop/TileManager.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="core/build/classes/java/main/com/badlogic/drop/Main.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="assets/tile.png" />
+    <option name="AFTER_PATH" value="assets/tile.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_10_2024_13_58_[Changes]/tile.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="core/build/tmp/compileJava/previous-compilation-data.bin" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="core/build/libs/core-$projectVersion.jar" />
+    <option name="AFTER_PATH" value="core/build/libs/core-$projectVersion.jar" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_10_2024_13_58_[Changes]/core-$projectVersion.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="core/build/classes/java/main/com/badlogic/drop/GameAssetManager.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".gradle/8.10.1/executionHistory/executionHistory.bin" />
+    <option name="AFTER_PATH" value=".gradle/8.10.1/executionHistory/executionHistory.bin" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_10_2024_13_58_[Changes]/executionHistory.bin" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".gradle/8.10.1/executionHistory/executionHistory.lock" />
+    <option name="AFTER_PATH" value=".gradle/8.10.1/executionHistory/executionHistory.lock" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_10_2024_13_58_[Changes]/executionHistory.lock" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="core/build/tmp/compileJava/compileTransaction/stash-dir/Main.class.uniqueId0" />
+    <option name="AFTER_PATH" value="core/build/tmp/compileJava/compileTransaction/stash-dir/Main.class.uniqueId0" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_10_2024_13_58_[Changes]/Main.class.uniqueId0" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".gradle/file-system.probe" />
+    <option name="AFTER_PATH" value=".gradle/file-system.probe" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_10_2024_13_58_[Changes]/file-system.probe" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".gradle/buildOutputCleanup/buildOutputCleanup.lock" />
+    <option name="AFTER_PATH" value=".gradle/buildOutputCleanup/buildOutputCleanup.lock" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_10_2024_13_58_[Changes]/buildOutputCleanup.lock" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="lwjgl3/build/resources/main/tile.png" />
+    <option name="AFTER_PATH" value="lwjgl3/build/resources/main/tile.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_10_2024_13_58_[Changes]/tile1.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".gradle/8.10.1/fileHashes/fileHashes.bin" />
+    <option name="AFTER_PATH" value=".gradle/8.10.1/fileHashes/fileHashes.bin" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_10_2024_13_58_[Changes]/fileHashes.bin" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="lwjgl3/build/classes/java/main/com/badlogic/drop/lwjgl3/Lwjgl3Launcher.class" />
+    <option name="AFTER_PATH" value="lwjgl3/build/classes/java/main/com/badlogic/drop/lwjgl3/Lwjgl3Launcher.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_10_2024_13_58_[Changes]/Lwjgl3Launcher.class" />
+  </binary>
+</changelist>

@@ -1,0 +1,267 @@
+Index: core/src/main/java/com/badlogic/drop/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.badlogic.drop;\r\nimport com.badlogic.gdx.ApplicationListener;\r\nimport com.badlogic.gdx.Gdx;\r\nimport com.badlogic.gdx.Input;\r\nimport com.badlogic.gdx.ScreenAdapter;\r\nimport com.badlogic.gdx.graphics.Color;\r\nimport com.badlogic.gdx.graphics.OrthographicCamera;\r\nimport com.badlogic.gdx.graphics.Texture;\r\nimport com.badlogic.gdx.graphics.g2d.BitmapFont;\r\nimport com.badlogic.gdx.graphics.g2d.SpriteBatch;\r\nimport com.badlogic.gdx.graphics.g2d.TextureRegion;\r\nimport com.badlogic.gdx.graphics.glutils.ShapeRenderer;\r\nimport com.badlogic.gdx.graphics.GL20;\r\nimport com.badlogic.gdx.math.Vector2;\r\nimport com.badlogic.gdx.utils.ScreenUtils;\r\nimport com.badlogic.gdx.utils.Timer;\r\nimport com.badlogic.gdx.utils.viewport.ScreenViewport;\r\nimport org.w3c.dom.Text;\r\nimport com.badlogic.gdx.graphics.g2d.Sprite;\r\nimport com.badlogic.gdx.graphics.g2d.SpriteBatch;\r\nimport com.badlogic.gdx.utils.viewport.FitViewport;\r\n\r\nimport java.awt.*;\r\nimport java.awt.image.renderable.RenderContext;\r\nimport java.sql.Time;\r\n\r\n/** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */\r\npublic class Main implements ApplicationListener {\r\n    FitViewport viewport;\r\n\r\n    InputManager inputManager;\r\n\r\n    Vector2 clickPos;\r\n\r\n    float timerValue = 0;\r\n\r\n    public static Texture backgroundImage;\r\n\r\n    public TileManager tileManager;\r\n\r\n    private SpriteBatch batch;\r\n\r\n    @Override\r\n    public void create() {\r\n        viewport = new FitViewport(800, 450);\r\n\r\n        inputManager = new InputManager((OrthographicCamera)viewport.getCamera());\r\n        //viewport.getCamera().update();\r\n        //Gdx.app.log(\"debug\", \"\" + ((OrthographicCamera)viewport.getCamera()).zoom);\r\n\r\n        Gdx.input.setInputProcessor(inputManager);\r\n\r\n        batch = new SpriteBatch();\r\n        // Load the background image\r\n        backgroundImage = new Texture(Gdx.files.internal(\"map.png\"));\r\n\r\n        tileManager = new TileManager(13,8);\r\n    }\r\n\r\n    @Override\r\n    public void resize(int width, int height) {\r\n        viewport.update(width, height, true);\r\n    }\r\n\r\n    @Override\r\n    public void render() {\r\n        handleInput();\r\n\r\n        //Update camera\r\n        viewport.getCamera().update();\r\n        batch.setProjectionMatrix(viewport.getCamera().combined);\r\n\r\n        Gdx.gl.glClearColor(0,0,0,1);\r\n        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);\r\n\r\n        // Draw the background image at (0, 0)\r\n        batch.begin();\r\n        batch.draw(backgroundImage, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());\r\n        batch.end();\r\n\r\n        //Draw unlockable tiles\r\n        tileManager.RenderTiles(batch);\r\n\r\n        //Draw timer\r\n        timerValue += Gdx.graphics.getDeltaTime();\r\n\r\n        batch.begin();\r\n        BitmapFont font = new BitmapFont();\r\n        font.getData().setScale(5, 5);\r\n        font.draw(batch, String.valueOf(Math.round(timerValue)), 250, 250);\r\n        batch.end();\r\n\r\n    }//\r\n\r\n    @Override\r\n    public void pause() {\r\n        // Invoked when your application is paused.\r\n    }\r\n\r\n    @Override\r\n    public void resume() {\r\n        // Invoked when your application is resumed after pause.\r\n    }\r\n\r\n    @Override\r\n    public void dispose() {\r\n        // Destroy application's resources here.\r\n    }\r\n\r\n    private void handleInput(){\r\n        if (Gdx.input.isTouched()) {\r\n            clickPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());\r\n            //Gdx.app.log(\"debug\", clickPos.x + \" \" + clickPos.y + \" : \" + viewport.getScreenWidth() + \" \" + viewport.getScreenHeight());\r\n            viewport.unproject(clickPos);\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/core/src/main/java/com/badlogic/drop/Main.java b/core/src/main/java/com/badlogic/drop/Main.java
+--- a/core/src/main/java/com/badlogic/drop/Main.java	(revision 747f6ef355632937d062740a241bc4be3a28f65f)
++++ b/core/src/main/java/com/badlogic/drop/Main.java	(date 1729515491477)
+@@ -42,7 +42,7 @@
+ 
+     @Override
+     public void create() {
+-        viewport = new FitViewport(800, 450);
++        viewport = new FitViewport(1920, 1080);
+ 
+         inputManager = new InputManager((OrthographicCamera)viewport.getCamera());
+         //viewport.getCamera().update();
+@@ -54,7 +54,7 @@
+         // Load the background image
+         backgroundImage = new Texture(Gdx.files.internal("map.png"));
+ 
+-        tileManager = new TileManager(13,8);
++        tileManager = new TileManager(40,23);
+     }
+ 
+     @Override
+Index: core/src/main/java/com/badlogic/drop/TileManager.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.badlogic.drop;\r\n\r\nimport com.badlogic.gdx.Gdx;\r\nimport com.badlogic.gdx.graphics.Texture;\r\nimport com.badlogic.gdx.graphics.g2d.SpriteBatch;\r\n\r\nimport java.awt.*;\r\n\r\npublic class TileManager {\r\n\r\n    int[][] grid;\r\n    Texture tileTexture;\r\n\r\n    int width;\r\n    int height;\r\n\r\n    public TileManager(int width, int height){\r\n        this.width = width;\r\n        this.height = height;\r\n\r\n        grid = new int[height][width]; //1 = unlocked, 0 = locked\r\n        for (int y = 0; y < height; y++) {\r\n            for (int x = 0; x < width; x++) {\r\n                grid[y][x] = 0;\r\n            }\r\n        }\r\n\r\n        tileTexture = new Texture(Gdx.files.internal(\"tile.png\"));\r\n        UnlockTile(3,3);\r\n    }\r\n\r\n    public void RenderTiles(SpriteBatch spriteBatch){\r\n        for (int y = 0; y < height; y++) {\r\n            for (int x = 0; x < width; x++) {\r\n                if(grid[y][x] != 1) {\r\n                    spriteBatch.begin();\r\n                    spriteBatch.draw(tileTexture, x * 64 - width, y * 64 - height);\r\n                    spriteBatch.end();\r\n                }\r\n            }\r\n        }\r\n    }\r\n\r\n    public void UnlockTile(int x, int y){\r\n        grid[y][x] = 1;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/core/src/main/java/com/badlogic/drop/TileManager.java b/core/src/main/java/com/badlogic/drop/TileManager.java
+--- a/core/src/main/java/com/badlogic/drop/TileManager.java	(revision 747f6ef355632937d062740a241bc4be3a28f65f)
++++ b/core/src/main/java/com/badlogic/drop/TileManager.java	(date 1729515246294)
+@@ -14,6 +14,8 @@
+     int width;
+     int height;
+ 
++    int gridSize = 48;
++
+     public TileManager(int width, int height){
+         this.width = width;
+         this.height = height;
+@@ -26,7 +28,6 @@
+         }
+ 
+         tileTexture = new Texture(Gdx.files.internal("tile.png"));
+-        UnlockTile(3,3);
+     }
+ 
+     public void RenderTiles(SpriteBatch spriteBatch){
+@@ -34,14 +35,14 @@
+             for (int x = 0; x < width; x++) {
+                 if(grid[y][x] != 1) {
+                     spriteBatch.begin();
+-                    spriteBatch.draw(tileTexture, x * 64 - width, y * 64 - height);
++                    spriteBatch.draw(tileTexture, x * gridSize - width, y * gridSize - height);
+                     spriteBatch.end();
+                 }
+             }
+         }
+     }
+ 
+-    public void UnlockTile(int x, int y){
+-        grid[y][x] = 1;
+-    }
++//    public void UnlockTile(int x, int y){
++//        grid[y][x] = 1;
++//    }
+ }
+Index: lwjgl3/src/main/java/com/badlogic/drop/lwjgl3/Lwjgl3Launcher.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.badlogic.drop.lwjgl3;\r\n\r\nimport com.badlogic.gdx.Gdx;\r\nimport com.badlogic.gdx.Graphics;\r\nimport com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;\r\nimport com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;\r\nimport com.badlogic.drop.Main;\r\n\r\nimport com.badlogic.gdx.backends.lwjgl3.Lwjgl3Graphics;\r\nimport com.badlogic.gdx.math.Vector2;\r\n\r\n/** Launches the desktop (LWJGL3) application. */\r\npublic class Lwjgl3Launcher {\r\n    public static void main(String[] args) {\r\n        if (StartupHelper.startNewJvmIfRequired()) return; // This handles macOS support and helps on Windows.\r\n        createApplication();\r\n        Vector2 vec = new Vector2(0,0);\r\n    }\r\n\r\n    private static Lwjgl3Application createApplication() {\r\n        return new Lwjgl3Application(new Main(), getDefaultConfiguration());\r\n    }\r\n\r\n    private static Lwjgl3ApplicationConfiguration getDefaultConfiguration() {\r\n        Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();\r\n        configuration.setTitle(\"UniSimulator\");\r\n        //// Vsync limits the frames per second to what your hardware can display, and helps eliminate\r\n        //// screen tearing. This setting doesn't always work on Linux, so the line after is a safeguard.\r\n        configuration.useVsync(true);\r\n        //// Limits FPS to the refresh rate of the currently active monitor, plus 1 to try to match fractional\r\n        //// refresh rates. The Vsync setting above should limit the actual FPS to match the monitor.\r\n        configuration.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate + 1);\r\n        //// If you remove the above line and set Vsync to false, you can get unlimited FPS, which can be\r\n        //// useful for testing performance, but can also be very stressful to some hardware.\r\n        //// You may also need to configure GPU drivers to fully disable Vsync; this can cause screen tearing.\r\n        //// You can change these files; they are in lwjgl3/src/main/resources/ .\r\n        configuration.setWindowIcon(\"libgdx128.png\", \"libgdx64.png\", \"libgdx32.png\", \"libgdx16.png\");\r\n        //configuration.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());\r\n        Graphics.DisplayMode displayMode = Lwjgl3ApplicationConfiguration.getDisplayMode();\r\n        configuration.setWindowedMode(800, 450);\r\n\r\n        return configuration;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lwjgl3/src/main/java/com/badlogic/drop/lwjgl3/Lwjgl3Launcher.java b/lwjgl3/src/main/java/com/badlogic/drop/lwjgl3/Lwjgl3Launcher.java
+--- a/lwjgl3/src/main/java/com/badlogic/drop/lwjgl3/Lwjgl3Launcher.java	(revision 747f6ef355632937d062740a241bc4be3a28f65f)
++++ b/lwjgl3/src/main/java/com/badlogic/drop/lwjgl3/Lwjgl3Launcher.java	(date 1729515340182)
+@@ -37,7 +37,7 @@
+         configuration.setWindowIcon("libgdx128.png", "libgdx64.png", "libgdx32.png", "libgdx16.png");
+         //configuration.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
+         Graphics.DisplayMode displayMode = Lwjgl3ApplicationConfiguration.getDisplayMode();
+-        configuration.setWindowedMode(800, 450);
++        configuration.setWindowedMode(1920, 1080);
+ 
+         return configuration;
+     }
+Index: assets/assets.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>lectureHall.png\r\nhs_err_pid20832.log\r\ntile.png\r\nmap.png\r\n.gitkeep\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/assets/assets.txt b/assets/assets.txt
+--- a/assets/assets.txt	(revision 747f6ef355632937d062740a241bc4be3a28f65f)
++++ b/assets/assets.txt	(date 1729515493233)
+@@ -1,5 +1,5 @@
+-lectureHall.png
++.gitkeep
+ hs_err_pid20832.log
+-tile.png
++lectureHall.png
+ map.png
+-.gitkeep
++tile.png
+Index: lwjgl3/build/resources/main/assets.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>lectureHall.png\r\nhs_err_pid20832.log\r\ntile.png\r\nmap.png\r\n.gitkeep\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lwjgl3/build/resources/main/assets.txt b/lwjgl3/build/resources/main/assets.txt
+--- a/lwjgl3/build/resources/main/assets.txt	(revision 747f6ef355632937d062740a241bc4be3a28f65f)
++++ b/lwjgl3/build/resources/main/assets.txt	(date 1729515254463)
+@@ -1,5 +1,5 @@
+-lectureHall.png
++.gitkeep
+ hs_err_pid20832.log
+-tile.png
++lectureHall.png
+ map.png
+-.gitkeep
++tile.png
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"e8d14ce1-2c17-456f-b487-d04f25c729bb\" name=\"Changes\" comment=\"Made the screen and textures scaleable\">\r\n      <change beforePath=\"$PROJECT_DIR$/.gradle/8.10.1/executionHistory/executionHistory.lock\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.gradle/8.10.1/executionHistory/executionHistory.lock\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.gradle/8.10.1/fileHashes/fileHashes.bin\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.gradle/8.10.1/fileHashes/fileHashes.bin\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.gradle/8.10.1/fileHashes/fileHashes.lock\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.gradle/8.10.1/fileHashes/fileHashes.lock\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/assets/assets.txt\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/assets/assets.txt\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/core/src/main/java/com/badlogic/drop/Main.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/core/src/main/java/com/badlogic/drop/Main.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"ExternalProjectsData\">\r\n    <projectState path=\"$PROJECT_DIR$\">\r\n      <ProjectState />\r\n    </projectState>\r\n  </component>\r\n  <component name=\"ExternalProjectsManager\">\r\n    <system id=\"GRADLE\">\r\n      <state>\r\n        <task path=\"$PROJECT_DIR$/lwjgl3\">\r\n          <activation />\r\n        </task>\r\n        <projects_view>\r\n          <tree_state>\r\n            <expand>\r\n              <path>\r\n                <item name=\"\" type=\"6a2764b6:ExternalProjectsStructure$RootNode\" />\r\n                <item name=\"UniSimulator\" type=\"f1a62948:ProjectNode\" />\r\n              </path>\r\n              <path>\r\n                <item name=\"\" type=\"6a2764b6:ExternalProjectsStructure$RootNode\" />\r\n                <item name=\"UniSimulator\" type=\"f1a62948:ProjectNode\" />\r\n                <item name=\"lwjgl3\" type=\"2d1252cf:ModuleNode\" />\r\n              </path>\r\n              <path>\r\n                <item name=\"\" type=\"6a2764b6:ExternalProjectsStructure$RootNode\" />\r\n                <item name=\"UniSimulator\" type=\"f1a62948:ProjectNode\" />\r\n                <item name=\"lwjgl3\" type=\"2d1252cf:ModuleNode\" />\r\n                <item name=\"Tasks\" type=\"e4a08cd1:TasksNode\" />\r\n              </path>\r\n              <path>\r\n                <item name=\"\" type=\"6a2764b6:ExternalProjectsStructure$RootNode\" />\r\n                <item name=\"UniSimulator\" type=\"f1a62948:ProjectNode\" />\r\n                <item name=\"lwjgl3\" type=\"2d1252cf:ModuleNode\" />\r\n                <item name=\"Tasks\" type=\"e4a08cd1:TasksNode\" />\r\n                <item name=\"application\" type=\"c8890929:TasksNode$1\" />\r\n              </path>\r\n            </expand>\r\n            <select />\r\n          </tree_state>\r\n        </projects_view>\r\n      </state>\r\n    </system>\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\"><![CDATA[{\r\n  \"lastFilter\": {\r\n    \"state\": \"OPEN\",\r\n    \"assignee\": \"dangtaylor19\"\r\n  }\r\n}]]></component>\r\n  <component name=\"GithubPullRequestsUISettings\"><![CDATA[{\r\n  \"selectedUrlAndAccountId\": {\r\n    \"url\": \"https://github.com/7DDevelopers/UniSimulator.git\",\r\n    \"accountId\": \"1d769dfd-a0e5-4a90-962c-072b3777cafe\"\r\n  }\r\n}]]></component>\r\n  <component name=\"HighlightingSettingsPerFile\">\r\n    <setting file=\"file://$PROJECT_DIR$/core/src/main/java/com/badlogic/drop/Main.java\" root0=\"SKIP_HIGHLIGHTING\" />\r\n  </component>\r\n  <component name=\"ProblemsViewState\">\r\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\"><![CDATA[{\r\n  \"associatedIndex\": 0\r\n}]]></component>\r\n  <component name=\"ProjectId\" id=\"2nQpWbKOPbluldSsII7X8zehIi9\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"ASKED_SHARE_PROJECT_CONFIGURATION_FILES\": \"true\",\r\n    \"Gradle.UniSimulator:lwjgl3 [run].executor\": \"Run\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"git-widget-placeholder\": \"main\",\r\n    \"kotlin-language-version-configured\": \"true\",\r\n    \"last_opened_file_path\": \"C:/Users/jomar/projects/gantt/UniSimulator/assets\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\jomar\\projects\\gantt\\UniSimulator\\assets\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\">\r\n    <configuration name=\"UniSimulator:lwjgl3 [run]\" type=\"GradleRunConfiguration\" factoryName=\"Gradle\" temporary=\"true\">\r\n      <ExternalSystemSettings>\r\n        <option name=\"executionName\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$/lwjgl3\" />\r\n        <option name=\"externalSystemIdString\" value=\"GRADLE\" />\r\n        <option name=\"scriptParameters\" />\r\n        <option name=\"taskDescriptions\">\r\n          <list />\r\n        </option>\r\n        <option name=\"taskNames\">\r\n          <list>\r\n            <option value=\"run\" />\r\n          </list>\r\n        </option>\r\n        <option name=\"vmOptions\" />\r\n      </ExternalSystemSettings>\r\n      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>\r\n      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>\r\n      <DebugAllEnabled>false</DebugAllEnabled>\r\n      <RunAsTest>false</RunAsTest>\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Gradle.UniSimulator:lwjgl3 [run]\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"e8d14ce1-2c17-456f-b487-d04f25c729bb\" name=\"Changes\" comment=\"\" />\r\n      <created>1728915186745</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1728915186745</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"Added moving cube\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1729179499041</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1729179499041</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"Made the screen and textures scaleable\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1729184811674</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1729184811674</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"3\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"Added moving cube\" />\r\n    <MESSAGE value=\"Made the screen and textures scaleable\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Made the screen and textures scaleable\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 747f6ef355632937d062740a241bc4be3a28f65f)
++++ b/.idea/workspace.xml	(date 1729515395372)
+@@ -4,13 +4,32 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="e8d14ce1-2c17-456f-b487-d04f25c729bb" name="Changes" comment="Made the screen and textures scaleable">
++    <list default="true" id="e8d14ce1-2c17-456f-b487-d04f25c729bb" name="Changes" comment="Added zooming and a grid feature">
++      <change beforePath="$PROJECT_DIR$/.gradle/8.10.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.10.1/executionHistory/executionHistory.bin" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.gradle/8.10.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.10.1/executionHistory/executionHistory.lock" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.gradle/8.10.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.10.1/fileHashes/fileHashes.bin" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.gradle/8.10.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.10.1/fileHashes/fileHashes.lock" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.gradle/8.10.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.10.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/assets/assets.txt" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets.txt" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/tile.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/tile.png" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/com/badlogic/drop/GameAssetManager.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/com/badlogic/drop/InputManager.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/com/badlogic/drop/Main.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/com/badlogic/drop/TileManager.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/core/build/libs/core-$projectVersion.jar" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/libs/core-$projectVersion.jar" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/core/build/tmp/compileJava/compileTransaction/stash-dir/Main.class.uniqueId0" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/tmp/compileJava/compileTransaction/stash-dir/Main.class.uniqueId0" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/core/build/tmp/compileJava/compileTransaction/stash-dir/TileManager.class.uniqueId1" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/core/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" />
+       <change beforePath="$PROJECT_DIR$/core/src/main/java/com/badlogic/drop/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/com/badlogic/drop/Main.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/badlogic/drop/TileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/com/badlogic/drop/TileManager.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/lwjgl3/build/classes/java/main/com/badlogic/drop/lwjgl3/Lwjgl3Launcher.class" beforeDir="false" afterPath="$PROJECT_DIR$/lwjgl3/build/classes/java/main/com/badlogic/drop/lwjgl3/Lwjgl3Launcher.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/lwjgl3/build/resources/main/assets.txt" beforeDir="false" afterPath="$PROJECT_DIR$/lwjgl3/build/resources/main/assets.txt" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/lwjgl3/build/resources/main/tile.png" beforeDir="false" afterPath="$PROJECT_DIR$/lwjgl3/build/resources/main/tile.png" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/lwjgl3/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/lwjgl3/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/lwjgl3/src/main/java/com/badlogic/drop/lwjgl3/Lwjgl3Launcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/lwjgl3/src/main/java/com/badlogic/drop/lwjgl3/Lwjgl3Launcher.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -70,42 +89,42 @@
+   <component name="Git.Settings">
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+   </component>
+-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+-  "lastFilter": {
+-    "state": "OPEN",
+-    "assignee": "dangtaylor19"
++  <component name="GitHubPullRequestSearchHistory">{
++  &quot;lastFilter&quot;: {
++    &quot;state&quot;: &quot;OPEN&quot;,
++    &quot;assignee&quot;: &quot;dangtaylor19&quot;
+   }
+-}]]></component>
+-  <component name="GithubPullRequestsUISettings"><![CDATA[{
+-  "selectedUrlAndAccountId": {
+-    "url": "https://github.com/7DDevelopers/UniSimulator.git",
+-    "accountId": "1d769dfd-a0e5-4a90-962c-072b3777cafe"
++}</component>
++  <component name="GithubPullRequestsUISettings">{
++  &quot;selectedUrlAndAccountId&quot;: {
++    &quot;url&quot;: &quot;https://github.com/7DDevelopers/UniSimulator.git&quot;,
++    &quot;accountId&quot;: &quot;1d769dfd-a0e5-4a90-962c-072b3777cafe&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="HighlightingSettingsPerFile">
+     <setting file="file://$PROJECT_DIR$/core/src/main/java/com/badlogic/drop/Main.java" root0="SKIP_HIGHLIGHTING" />
+   </component>
+   <component name="ProblemsViewState">
+     <option name="selectedTabId" value="CurrentFile" />
+   </component>
+-  <component name="ProjectColorInfo"><![CDATA[{
+-  "associatedIndex": 0
+-}]]></component>
++  <component name="ProjectColorInfo">{
++  &quot;associatedIndex&quot;: 0
++}</component>
+   <component name="ProjectId" id="2nQpWbKOPbluldSsII7X8zehIi9" />
+   <component name="ProjectViewState">
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+-    "Gradle.UniSimulator:lwjgl3 [run].executor": "Run",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "git-widget-placeholder": "main",
+-    "kotlin-language-version-configured": "true",
+-    "last_opened_file_path": "C:/Users/jomar/projects/gantt/UniSimulator/assets"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
++    &quot;Gradle.UniSimulator:lwjgl3 [run].executor&quot;: &quot;Run&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
++    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
++    &quot;last_opened_file_path&quot;: &quot;C:/Users/jomar/projects/gantt/UniSimulator/assets&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
+       <recent name="C:\Users\jomar\projects\gantt\UniSimulator\assets" />
+@@ -165,7 +184,15 @@
+       <option name="project" value="LOCAL" />
+       <updated>1729184811674</updated>
+     </task>
+-    <option name="localTasksCounter" value="3" />
++    <task id="LOCAL-00003" summary="Added zooming and a grid feature">
++      <option name="closed" value="true" />
++      <created>1729514227993</created>
++      <option name="number" value="00003" />
++      <option name="presentableId" value="LOCAL-00003" />
++      <option name="project" value="LOCAL" />
++      <updated>1729514227993</updated>
++    </task>
++    <option name="localTasksCounter" value="4" />
+     <servers />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
+@@ -182,6 +209,7 @@
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="Added moving cube" />
+     <MESSAGE value="Made the screen and textures scaleable" />
+-    <option name="LAST_COMMIT_MESSAGE" value="Made the screen and textures scaleable" />
++    <MESSAGE value="Added zooming and a grid feature" />
++    <option name="LAST_COMMIT_MESSAGE" value="Added zooming and a grid feature" />
+   </component>
+ </project>
+\ No newline at end of file

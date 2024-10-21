@@ -61,7 +61,7 @@ public class Main implements ApplicationListener {
     public void create() {
         STAGE = 0;
         camera = new OrthographicCamera();
-        viewport = new FitViewport(800, 450, camera);
+        viewport = new FitViewport(1920, 1080, camera);
 
         // Initialize batch and input manager
         batch = new SpriteBatch();
@@ -69,7 +69,7 @@ public class Main implements ApplicationListener {
 
         // Load background image
         backgroundImage = new Texture(Gdx.files.internal("map.png"));
-        tileManager = new TileManager(13, 8);
+        tileManager = new TileManager(48, 27);
 
         // Setup start menu stage
         setupStartMenu();
@@ -109,13 +109,6 @@ public class Main implements ApplicationListener {
             renderMainGame();
         }
     }
-    private void handleInput() {
-        if (Gdx.input.isTouched()) {
-            Vector2 clickPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
-            viewport.unproject(clickPos);
-            // Handle game input like placing buildings, etc.
-        }
-    }
     private void renderStartMenu() {
         // Clear the screen for the start menu
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -126,7 +119,6 @@ public class Main implements ApplicationListener {
         startMenuStage.draw();
     }
     private void renderMainGame() {
-        handleInput();
 
         // Update the camera
         camera.update();
