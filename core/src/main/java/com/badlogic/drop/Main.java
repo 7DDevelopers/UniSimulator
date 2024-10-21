@@ -44,7 +44,7 @@ public class Main implements ApplicationListener {
 
     Vector2 clickPos;
 
-    float timerValue = 0;
+    float timerValue = 300;
 
     public static Texture backgroundImage;
 
@@ -137,11 +137,12 @@ public class Main implements ApplicationListener {
         tileManager.RenderTiles(batch);
 
         // Update and render the timer
-        timerValue += Gdx.graphics.getDeltaTime();
+        timerValue -= Gdx.graphics.getDeltaTime();
+        int time = Math.round(timerValue);
         batch.begin();
         BitmapFont font = new BitmapFont();
         font.getData().setScale(5, 5);
-        font.draw(batch, String.valueOf(Math.round(timerValue)), 250, 250);
+        font.draw(batch,time < 60 ? ("" + time) : ("" + time / 60 + ":" + (time % 60 != 0 ? (time % 60) : "00")), 250, 250);
         batch.end();
     }
 
