@@ -55,46 +55,102 @@ public class Main implements ApplicationListener {
     public int STAGE = 0;
     private Stage startMenuStage;
     private Skin skin;
+    private OrthographicCamera camera;
 
     @Override
     public void create() {
+        STAGE = 0;
+        camera = new OrthographicCamera();
+        viewport = new FitViewport(800, 450, camera);
+
+        // Initialize batch and input manager
         batch = new SpriteBatch();
-        startMenuStage = new Stage(new ScreenViewport());
+        inputManager = new InputManager(camera);
 
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        // Load background image
+        backgroundImage = new Texture(Gdx.files.internal("map.png"));
+        tileManager = new TileManager(13, 8);
 
+        // Setup start menu stage
+        setupStartMenu();
+
+        // Set initial input processor to the start menu stage
         Gdx.input.setInputProcessor(startMenuStage);
+    }
+    private void setupStartMenu() {
+        startMenuStage = new Stage(new ScreenViewport());
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
 
         TextButton startButton = new TextButton("Start", skin);
 
         startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                // Change the stage when the start button is clicked
                 STAGE = 1;
-                System.out.println("Game State changed to: " + STAGE);  // For debugging
+                Gdx.input.setInputProcessor(inputManager);  // Set InputManager for the game stage
+                System.out.println("Game State changed to: " + STAGE);
             }
         });
 
+        // Create a table to center the button
         Table table = new Table();
         table.setFillParent(true);
         table.center();
-
         table.add(startButton).width(200).height(60);
-
         startMenuStage.addActor(table);
-        viewport = new FitViewport(800, 450);
+    }
 
-        inputManager = new InputManager((OrthographicCamera)viewport.getCamera());
-        //viewport.getCamera().update();
-        //Gdx.app.log("debug", "" + ((OrthographicCamera)viewport.getCamera()).zoom);
+    @Override
+    public void render() {
+        if (STAGE == 0) {
+            renderStartMenu();
+        } else if (STAGE == 1) {
+            renderMainGame();
+        }
+    }
+    private void handleInput() {
+        if (Gdx.input.isTouched()) {
+            Vector2 clickPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+            viewport.unproject(clickPos);
+            // Handle game input like placing buildings, etc.
+        }
+    }
+    private void renderStartMenu() {
+        // Clear the screen for the start menu
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        Gdx.input.setInputProcessor(inputManager);
+        // Render the start menu stage
+        startMenuStage.act(Gdx.graphics.getDeltaTime());
+        startMenuStage.draw();
+    }
+    private void renderMainGame() {
+        handleInput();
 
-        batch = new SpriteBatch();
-        // Load the background image
-        backgroundImage = new Texture(Gdx.files.internal("map.png"));
+        // Update the camera
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
 
-        tileManager = new TileManager(13,8);
+        // Clear the screen
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        // Draw the background and tiles
+        batch.begin();
+        batch.draw(backgroundImage, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+        batch.end();
+
+        // Render the tiles
+        tileManager.RenderTiles(batch);
+
+        // Update and render the timer
+        timerValue += Gdx.graphics.getDeltaTime();
+        batch.begin();
+        BitmapFont font = new BitmapFont();
+        font.getData().setScale(5, 5);
+        font.draw(batch, String.valueOf(Math.round(timerValue)), 250, 250);
+        batch.end();
     }
 
     @Override
@@ -102,47 +158,7 @@ public class Main implements ApplicationListener {
         viewport.update(width, height, true);
     }
 
-    @Override
-    public void render() {
-        if(STAGE == 1){mainGame();}
-        if(STAGE==0){startMenu();}
 
-    }//
-    public void startMenu(){
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        // Draw the stage
-        startMenuStage.act(Gdx.graphics.getDeltaTime());
-        startMenuStage.draw();
-    }
-    public void mainGame(){
-        handleInput();
-
-        //Update camera
-        viewport.getCamera().update();
-        batch.setProjectionMatrix(viewport.getCamera().combined);
-
-        Gdx.gl.glClearColor(0,0,0,1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        // Draw the background image at (0, 0)
-        batch.begin();
-        batch.draw(backgroundImage, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-        batch.end();
-
-        //Draw unlockable tiles
-        tileManager.RenderTiles(batch);
-
-        //Draw timer
-        timerValue += Gdx.graphics.getDeltaTime();
-
-        batch.begin();
-        BitmapFont font = new BitmapFont();
-        font.getData().setScale(5, 5);
-        font.draw(batch, String.valueOf(Math.round(timerValue)), 250, 250);
-        batch.end();
-    }
     @Override
     public void pause() {
         // Invoked when your application is paused.
@@ -155,14 +171,9 @@ public class Main implements ApplicationListener {
 
     @Override
     public void dispose() {
-        // Destroy application's resources here.
-    }
-
-    private void handleInput(){
-        if (Gdx.input.isTouched()) {
-            clickPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
-            //Gdx.app.log("debug", clickPos.x + " " + clickPos.y + " : " + viewport.getScreenWidth() + " " + viewport.getScreenHeight());
-            viewport.unproject(clickPos);
-        }
+        batch.dispose();
+        backgroundImage.dispose();
+        startMenuStage.dispose();
+        skin.dispose();
     }
 }
