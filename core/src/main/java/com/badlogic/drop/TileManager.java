@@ -35,7 +35,7 @@ public class TileManager {
             for (int x = 0; x < width; x++) {
                 if(grid[y][x] != 1) {
                     spriteBatch.begin();
-                    spriteBatch.draw(tileTexture, x * gridSize - width, y * gridSize - height);
+                    spriteBatch.draw(tileTexture, x * gridSize - width + 49, y * gridSize - height + 30);
                     spriteBatch.end();
                 }
             }

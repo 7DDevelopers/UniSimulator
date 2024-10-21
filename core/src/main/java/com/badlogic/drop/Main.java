@@ -69,7 +69,7 @@ public class Main implements ApplicationListener {
 
         // Load background image
         backgroundImage = new Texture(Gdx.files.internal("map.png"));
-        tileManager = new TileManager(49, 30);
+        tileManager = new TileManager(48, 27);
 
         // Setup start menu stage
         setupStartMenu();
