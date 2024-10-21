@@ -109,13 +109,6 @@ public class Main implements ApplicationListener {
             renderMainGame();
         }
     }
-    private void handleInput() {
-        if (Gdx.input.isTouched()) {
-            Vector2 clickPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
-            viewport.unproject(clickPos);
-            // Handle game input like placing buildings, etc.
-        }
-    }
     private void renderStartMenu() {
         // Clear the screen for the start menu
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -126,7 +119,6 @@ public class Main implements ApplicationListener {
         startMenuStage.draw();
     }
     private void renderMainGame() {
-        handleInput();
 
         // Update the camera
         camera.update();
