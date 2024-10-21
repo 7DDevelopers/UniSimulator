@@ -1,5 +1,9 @@
 lectureHall.png
 hs_err_pid20832.log
 tile.png
+default.fnt
+uiskin.png
 map.png
 .gitkeep
+uiskin.json
+uiskin.atlas
