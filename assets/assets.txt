@@ -1,5 +1,5 @@
-.gitkeep
-hs_err_pid20832.log
 lectureHall.png
-map.png
+hs_err_pid20832.log
 tile.png
+map.png
+.gitkeep
