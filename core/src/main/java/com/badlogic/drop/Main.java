@@ -65,11 +65,13 @@ public class Main implements ApplicationListener {
 
         // Initialize batch and input manager
         batch = new SpriteBatch();
-        inputManager = new InputManager(camera);
+        inputManager = new InputManager(viewport, camera);
 
         // Load background image
         backgroundImage = new Texture(Gdx.files.internal("map.png"));
+
         tileManager = new TileManager(48, 27);
+        inputManager.tileManager = tileManager;
 
         // Setup start menu stage
         setupStartMenu();
