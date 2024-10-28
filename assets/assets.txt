@@ -3,6 +3,9 @@ default.fnt
 hs_err_pid20832.log
 lectureHall.png
 map.png
+path.png
+person.png
+pub.png
 tile.png
 uiskin.atlas
 uiskin.json

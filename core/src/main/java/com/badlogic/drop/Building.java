@@ -12,7 +12,7 @@ public class Building extends Entity {
     @Override
     public void render(SpriteBatch spriteBatch) {
         spriteBatch.begin();
-        spriteBatch.draw(super.texture, super.getPosition().x, super.getPosition().y);  // Draw with width and height
+        spriteBatch.draw(super.texture, super.getPosition().x, super.getPosition().y, super.texture.toString() == "path.png" ? 40 : 80,  super.texture.toString() == "path.png" ? 40 : 80);  // Draw with width and height
         spriteBatch.end();
     }
 
