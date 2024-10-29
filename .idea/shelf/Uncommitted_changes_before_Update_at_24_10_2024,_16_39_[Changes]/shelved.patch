@@ -1,0 +1,154 @@
+Index: core/src/main/java/com/badlogic/drop/TileManager.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.badlogic.drop;\n\nimport com.badlogic.gdx.Gdx;\nimport com.badlogic.gdx.graphics.Texture;\nimport com.badlogic.gdx.graphics.g2d.SpriteBatch;\n\nimport java.awt.*;\n\npublic class TileManager {\n\n    int[][] grid;\n    Texture tileTexture;\n\n    int width;\n    int height;\n\n    int gridSize = 40;\n\n    public TileManager(int width, int height){\n        this.width = width;\n        this.height = height;\n\n        grid = new int[height][width]; //1 = unlocked, 0 = locked\n        for (int y = 0; y < height; y++) {\n            for (int x = 0; x < width; x++) {\n                grid[y][x] = 0;\n            }\n        }\n\n        tileTexture = new Texture(Gdx.files.internal(\"tile.png\"));\n    }\n\n    public void RenderTiles(SpriteBatch spriteBatch){\n        for (int y = 0; y < height; y++) {\n            for (int x = 0; x < width; x++) {\n                if(grid[y][x] != 1) {\n                    spriteBatch.begin();\n                    spriteBatch.draw(tileTexture, x * gridSize - width + 49, y * gridSize - height + 30);\n                    spriteBatch.end();\n                }\n            }\n        }\n    }\n\n//    public void UnlockTile(int x, int y){\n//        grid[y][x] = 1;\n//    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/core/src/main/java/com/badlogic/drop/TileManager.java b/core/src/main/java/com/badlogic/drop/TileManager.java
+--- a/core/src/main/java/com/badlogic/drop/TileManager.java	(revision 61a89ab7eabf81b87dc83b730ffe04cfcbb7a9db)
++++ b/core/src/main/java/com/badlogic/drop/TileManager.java	(date 1729784259668)
+@@ -6,7 +6,7 @@
+ 
+ import java.awt.*;
+ 
+-public class TileManager {
++public class rTileManager {
+ 
+     int[][] grid;
+     Texture tileTexture;
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_17\" project-jdk-name=\"21\" project-jdk-type=\"JavaSDK\" />\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 61a89ab7eabf81b87dc83b730ffe04cfcbb7a9db)
++++ b/.idea/misc.xml	(date 1729519472232)
+@@ -1,5 +1,8 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="ExternalStorageConfigurationManager" enabled="true" />
++  <component name="LibGDXSkins">
++    <file url="file://$PROJECT_DIR$/assets/uiskin.json" />
++  </component>
+   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="21" project-jdk-type="JavaSDK" />
+-</project>
+\ No newline at end of file
++</project>
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"e8d14ce1-2c17-456f-b487-d04f25c729bb\" name=\"Changes\" comment=\"Removed old input\">\n      <change beforePath=\"$PROJECT_DIR$/.gradle/8.10.1/executionHistory/executionHistory.bin\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.gradle/8.10.1/executionHistory/executionHistory.bin\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.gradle/8.10.1/executionHistory/executionHistory.lock\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.gradle/8.10.1/executionHistory/executionHistory.lock\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.gradle/8.10.1/fileHashes/fileHashes.bin\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.gradle/8.10.1/fileHashes/fileHashes.bin\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.gradle/8.10.1/fileHashes/fileHashes.lock\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.gradle/8.10.1/fileHashes/fileHashes.lock\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.gradle/8.10.1/fileHashes/resourceHashesCache.bin\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.gradle/8.10.1/fileHashes/resourceHashesCache.bin\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/assets/map.png\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/assets/map.png\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/core/build/classes/java/main/com/badlogic/drop/TileManager.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/core/build/classes/java/main/com/badlogic/drop/TileManager.class\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/core/build/libs/core-$projectVersion.jar\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/core/build/libs/core-$projectVersion.jar\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/core/build/tmp/compileJava/compileTransaction/stash-dir/Main.class.uniqueId1\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/core/build/tmp/compileJava/compileTransaction/stash-dir/Main.class.uniqueId1\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/core/build/tmp/compileJava/previous-compilation-data.bin\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/core/build/tmp/compileJava/previous-compilation-data.bin\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/core/src/main/java/com/badlogic/drop/Main.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/core/src/main/java/com/badlogic/drop/Main.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/core/src/main/java/com/badlogic/drop/TileManager.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/core/src/main/java/com/badlogic/drop/TileManager.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/lwjgl3/build/resources/main/map.png\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/lwjgl3/build/resources/main/map.png\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"ExternalProjectsData\">\n    <projectState path=\"$PROJECT_DIR$\">\n      <ProjectState />\n    </projectState>\n  </component>\n  <component name=\"ExternalProjectsManager\">\n    <system id=\"GRADLE\">\n      <state>\n        <task path=\"$PROJECT_DIR$/lwjgl3\">\n          <activation />\n        </task>\n        <projects_view>\n          <tree_state>\n            <expand>\n              <path>\n                <item name=\"\" type=\"6a2764b6:ExternalProjectsStructure$RootNode\" />\n                <item name=\"UniSimulator\" type=\"f1a62948:ProjectNode\" />\n              </path>\n              <path>\n                <item name=\"\" type=\"6a2764b6:ExternalProjectsStructure$RootNode\" />\n                <item name=\"UniSimulator\" type=\"f1a62948:ProjectNode\" />\n                <item name=\"lwjgl3\" type=\"2d1252cf:ModuleNode\" />\n              </path>\n              <path>\n                <item name=\"\" type=\"6a2764b6:ExternalProjectsStructure$RootNode\" />\n                <item name=\"UniSimulator\" type=\"f1a62948:ProjectNode\" />\n                <item name=\"lwjgl3\" type=\"2d1252cf:ModuleNode\" />\n                <item name=\"Tasks\" type=\"e4a08cd1:TasksNode\" />\n              </path>\n              <path>\n                <item name=\"\" type=\"6a2764b6:ExternalProjectsStructure$RootNode\" />\n                <item name=\"UniSimulator\" type=\"f1a62948:ProjectNode\" />\n                <item name=\"lwjgl3\" type=\"2d1252cf:ModuleNode\" />\n                <item name=\"Tasks\" type=\"e4a08cd1:TasksNode\" />\n                <item name=\"application\" type=\"c8890929:TasksNode$1\" />\n              </path>\n            </expand>\n            <select />\n          </tree_state>\n        </projects_view>\n      </state>\n    </system>\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\">{\n  &quot;lastFilter&quot;: {\n    &quot;state&quot;: &quot;OPEN&quot;,\n    &quot;assignee&quot;: &quot;dangtaylor19&quot;\n  }\n}</component>\n  <component name=\"GithubPullRequestsUISettings\">{\n  &quot;selectedUrlAndAccountId&quot;: {\n    &quot;url&quot;: &quot;https://github.com/7DDevelopers/UniSimulator.git&quot;,\n    &quot;accountId&quot;: &quot;ae9c2a1f-4195-42dd-a998-a723b9e052e6&quot;\n  }\n}</component>\n  <component name=\"HighlightingSettingsPerFile\">\n    <setting file=\"file://$PROJECT_DIR$/core/src/main/java/com/badlogic/drop/Main.java\" root0=\"SKIP_HIGHLIGHTING\" />\n  </component>\n  <component name=\"ProblemsViewState\">\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 0\n}</component>\n  <component name=\"ProjectId\" id=\"2nQpWbKOPbluldSsII7X8zehIi9\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\n    &quot;Gradle.UniSimulator:lwjgl3 [run].executor&quot;: &quot;Run&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;git-widget-placeholder&quot;: &quot;main&quot;,\n    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,\n    &quot;last_opened_file_path&quot;: &quot;C:/Users/jomar/projects/gantt/UniSimulator/assets&quot;\n  }\n}</component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"C:\\Users\\jomar\\projects\\gantt\\UniSimulator\\assets\" />\n    </key>\n  </component>\n  <component name=\"RunManager\">\n    <configuration name=\"UniSimulator:lwjgl3 [run]\" type=\"GradleRunConfiguration\" factoryName=\"Gradle\" temporary=\"true\">\n      <ExternalSystemSettings>\n        <option name=\"executionName\" />\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$/lwjgl3\" />\n        <option name=\"externalSystemIdString\" value=\"GRADLE\" />\n        <option name=\"scriptParameters\" />\n        <option name=\"taskDescriptions\">\n          <list />\n        </option>\n        <option name=\"taskNames\">\n          <list>\n            <option value=\"run\" />\n          </list>\n        </option>\n        <option name=\"vmOptions\" />\n      </ExternalSystemSettings>\n      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>\n      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>\n      <DebugAllEnabled>false</DebugAllEnabled>\n      <RunAsTest>false</RunAsTest>\n      <method v=\"2\" />\n    </configuration>\n    <recent_temporary>\n      <list>\n        <item itemvalue=\"Gradle.UniSimulator:lwjgl3 [run]\" />\n      </list>\n    </recent_temporary>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"e8d14ce1-2c17-456f-b487-d04f25c729bb\" name=\"Changes\" comment=\"\" />\n      <created>1728915186745</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1728915186745</updated>\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"Added moving cube\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1729179499041</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1729179499041</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"Made the screen and textures scaleable\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1729184811674</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1729184811674</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"fixed building class\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1729514935553</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1729514935553</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"added entity\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1729515193325</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1729515193325</updated>\n    </task>\n    <task id=\"LOCAL-00005\" summary=\"Updated grid and added movement\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1729518423642</created>\n      <option name=\"number\" value=\"00005\" />\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1729518423642</updated>\n    </task>\n    <task id=\"LOCAL-00006\" summary=\"Removed old input\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1729518567192</created>\n      <option name=\"number\" value=\"00006\" />\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1729518567192</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"7\" />\n    <servers />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"Added moving cube\" />\n    <MESSAGE value=\"Made the screen and textures scaleable\" />\n    <MESSAGE value=\"fixed building class\" />\n    <MESSAGE value=\"added entity\" />\n    <MESSAGE value=\"Updated grid and added movement\" />\n    <MESSAGE value=\"Removed old input\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Removed old input\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 61a89ab7eabf81b87dc83b730ffe04cfcbb7a9db)
++++ b/.idea/workspace.xml	(date 1729784260052)
+@@ -5,21 +5,18 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="e8d14ce1-2c17-456f-b487-d04f25c729bb" name="Changes" comment="Removed old input">
++      <change beforePath="$PROJECT_DIR$/.gradle/8.10.1/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.10.1/checksums/checksums.lock" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.gradle/8.10.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.10.1/executionHistory/executionHistory.bin" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.gradle/8.10.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.10.1/executionHistory/executionHistory.lock" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.gradle/8.10.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.10.1/fileHashes/fileHashes.bin" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.gradle/8.10.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.10.1/fileHashes/fileHashes.lock" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.gradle/8.10.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.10.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/assets/map.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/map.png" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/com/badlogic/drop/TileManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/com/badlogic/drop/TileManager.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/core/build/libs/core-$projectVersion.jar" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/libs/core-$projectVersion.jar" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/core/build/tmp/compileJava/compileTransaction/stash-dir/Main.class.uniqueId1" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/tmp/compileJava/compileTransaction/stash-dir/Main.class.uniqueId1" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/core/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/badlogic/drop/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/com/badlogic/drop/Main.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/assets.txt" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets.txt" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/core/src/main/java/com/badlogic/drop/TileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/com/badlogic/drop/TileManager.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/lwjgl3/build/resources/main/map.png" beforeDir="false" afterPath="$PROJECT_DIR$/lwjgl3/build/resources/main/map.png" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/lwjgl3/build/resources/main/assets.txt" beforeDir="false" afterPath="$PROJECT_DIR$/lwjgl3/build/resources/main/assets.txt" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -105,16 +102,16 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent">{
+-  &quot;keyToString&quot;: {
+-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+-    &quot;Gradle.UniSimulator:lwjgl3 [run].executor&quot;: &quot;Run&quot;,
+-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+-    &quot;last_opened_file_path&quot;: &quot;C:/Users/jomar/projects/gantt/UniSimulator/assets&quot;
++  <component name="PropertiesComponent"><![CDATA[{
++  "keyToString": {
++    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
++    "Gradle.UniSimulator:lwjgl3 [run].executor": "Run",
++    "RunOnceActivity.ShowReadmeOnStart": "true",
++    "git-widget-placeholder": "main",
++    "kotlin-language-version-configured": "true",
++    "last_opened_file_path": "/home/luke/Desktop/UniSimulatorUpdated"
+   }
+-}</component>
++}]]></component>
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
+       <recent name="C:\Users\jomar\projects\gantt\UniSimulator\assets" />
+Index: assets/assets.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>.gitkeep\ndefault.fnt\nhs_err_pid20832.log\nlectureHall.png\nmap.png\ntile.png\nuiskin.atlas\nuiskin.json\nuiskin.png\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/assets/assets.txt b/assets/assets.txt
+--- a/assets/assets.txt	(revision 61a89ab7eabf81b87dc83b730ffe04cfcbb7a9db)
++++ b/assets/assets.txt	(date 1729521396153)
+@@ -1,9 +1,9 @@
+-.gitkeep
+-default.fnt
+-hs_err_pid20832.log
+ lectureHall.png
+-map.png
++hs_err_pid20832.log
+ tile.png
+-uiskin.atlas
+-uiskin.json
++default.fnt
+ uiskin.png
++map.png
++.gitkeep
++uiskin.json
++uiskin.atlas
+Index: lwjgl3/build/resources/main/assets.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>.gitkeep\ndefault.fnt\nhs_err_pid20832.log\nlectureHall.png\nmap.png\ntile.png\nuiskin.atlas\nuiskin.json\nuiskin.png\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lwjgl3/build/resources/main/assets.txt b/lwjgl3/build/resources/main/assets.txt
+--- a/lwjgl3/build/resources/main/assets.txt	(revision 61a89ab7eabf81b87dc83b730ffe04cfcbb7a9db)
++++ b/lwjgl3/build/resources/main/assets.txt	(date 1729519480973)
+@@ -1,9 +1,9 @@
+-.gitkeep
+-default.fnt
+-hs_err_pid20832.log
+ lectureHall.png
+-map.png
++hs_err_pid20832.log
+ tile.png
+-uiskin.atlas
+-uiskin.json
++default.fnt
+ uiskin.png
++map.png
++.gitkeep
++uiskin.json
++uiskin.atlas
