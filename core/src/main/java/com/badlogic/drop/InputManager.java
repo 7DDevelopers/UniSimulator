@@ -5,13 +5,24 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+
+import java.util.ArrayList;
 
 public class InputManager implements InputProcessor {
 
     OrthographicCamera cam;
+    FitViewport viewport;
 
-    public InputManager(OrthographicCamera cam){
+    TileManager tileManager;
+
+    public int buildingNum = 0;
+
+    public ArrayList<Person> people = new ArrayList<Person>();
+
+    public InputManager(FitViewport viewport, OrthographicCamera cam){
         this.cam = cam;
+        this.viewport = viewport;
     }
 
     @Override
@@ -26,6 +37,25 @@ public class InputManager implements InputProcessor {
 
     @Override
     public boolean keyTyped(char c) {
+        switch (c){
+            //Numbers
+            case '1':
+                buildingNum = 0;
+                break;
+            case '2':
+                buildingNum = 1;
+                break;
+            case '3':
+                buildingNum = 2;
+                break;
+            //other
+            case 'j':
+                Person p = new Person(new Vector2(0,0));
+                people.add(p);
+                break;
+            default:
+                break;
+        }
         return false;
     }
 
@@ -36,6 +66,40 @@ public class InputManager implements InputProcessor {
 
     @Override
     public boolean touchUp(int i, int i1, int i2, int i3) {
+        Vector3 clickPos = viewport.unproject(new Vector3(i,i1,0));
+        clickPos = new Vector3((int)Math.floor(clickPos.x / 40), (int)Math.floor(clickPos.y / 40), 0);
+
+        //System.out.println((int)clickPos.x + "," + (int)clickPos.y);
+        if ((buildingNum != 2 && (tileManager.grid[(int) clickPos.y][(int) clickPos.x] != 1 &&
+            tileManager.grid[(int) clickPos.y + 1][(int) clickPos.x + 1] != 1 &&
+            tileManager.grid[(int) clickPos.y + 1][(int) clickPos.x] != 1 &&
+            tileManager.grid[(int) clickPos.y][(int) clickPos.x + 1] != 1)) || (buildingNum == 2 && (tileManager.grid[(int) clickPos.y][(int) clickPos.x] != 1))) {
+            String buildingTexture = "";
+
+            switch (buildingNum) {
+                case 1:
+                    buildingTexture = "pub.png";
+                    break;
+                case 2:
+                    buildingTexture = "path.png";
+                    break;
+                default:
+                    buildingTexture = "lectureHall.png";
+            }
+
+            if(buildingNum != 2) {
+                tileManager.LockTile((int) clickPos.x, (int) clickPos.y);
+                tileManager.LockTile((int) clickPos.x+1, (int) clickPos.y);
+                tileManager.LockTile((int) clickPos.x+1, (int) clickPos.y+1);
+                tileManager.LockTile((int) clickPos.x, (int) clickPos.y+1);
+            }else{
+                tileManager.LockTile((int) clickPos.x, (int) clickPos.y);
+            }
+
+            Building newBuilding = new Building((int) clickPos.x * 40, (int) clickPos.y * 40, buildingTexture);
+            tileManager.buildings.add(newBuilding);
+        }
+
         return false;
     }
 
@@ -46,8 +110,8 @@ public class InputManager implements InputProcessor {
 
     @Override
     public boolean touchDragged(int i, int i1, int i2) {
-        cam.position.set(cam.viewportWidth-i,i1,cam.position.z);
-        cam.update();
+        //cam.position.set(cam.viewportWidth-i,i1,cam.position.z);
+        //cam.update();
         return false;
     }
 

@@ -1,40 +1,20 @@
 package com.badlogic.drop;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import org.w3c.dom.Text;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-
-import java.awt.*;
-import java.awt.image.renderable.RenderContext;
-import java.sql.Time;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main implements ApplicationListener {
@@ -65,11 +45,13 @@ public class Main implements ApplicationListener {
 
         // Initialize batch and input manager
         batch = new SpriteBatch();
-        inputManager = new InputManager(camera);
+        inputManager = new InputManager(viewport, camera);
 
         // Load background image
         backgroundImage = new Texture(Gdx.files.internal("map.png"));
+
         tileManager = new TileManager(48, 27);
+        inputManager.tileManager = tileManager;
 
         // Setup start menu stage
         setupStartMenu();
@@ -109,6 +91,7 @@ public class Main implements ApplicationListener {
             renderMainGame();
         }
     }
+
     private void renderStartMenu() {
         // Clear the screen for the start menu
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -144,6 +127,17 @@ public class Main implements ApplicationListener {
         font.getData().setScale(5, 5);
         font.draw(batch,time < 60 ? ("" + time) : ("" + time / 60 + ":" + (time % 60 != 0 ? (time % 60) : "00")), 250, 250);
         batch.end();
+
+        //Building count
+        batch.begin();
+        BitmapFont buildingFont = new BitmapFont();
+        buildingFont.getData().setScale(5, 5);
+        buildingFont.draw(batch, "Buildings: " + tileManager.buildings.size(), 250, 960);
+        batch.end();
+
+        for (int i = 0; i < inputManager.people.size(); i++) {
+            inputManager.people.get(i).render(batch);
+        }
     }
 
     @Override

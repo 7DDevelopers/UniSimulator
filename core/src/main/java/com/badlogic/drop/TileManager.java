@@ -5,6 +5,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Enumeration;
+import java.util.HashMap;
 
 public class TileManager {
 
@@ -15,6 +19,8 @@ public class TileManager {
     int height;
 
     int gridSize = 40;
+
+    public ArrayList<Building> buildings = new ArrayList<Building>();
 
     public TileManager(int width, int height){
         this.width = width;
@@ -31,18 +37,12 @@ public class TileManager {
     }
 
     public void RenderTiles(SpriteBatch spriteBatch){
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                if(grid[y][x] != 1) {
-                    spriteBatch.begin();
-                    spriteBatch.draw(tileTexture, x * gridSize - width + 49, y * gridSize - height + 30);
-                    spriteBatch.end();
-                }
-            }
+        for (int i = 0; i < buildings.size(); i++) {
+            buildings.get(i).render(spriteBatch);
         }
     }
 
-//    public void UnlockTile(int x, int y){
-//        grid[y][x] = 1;
-//    }
+    public void LockTile(int x, int y){
+        grid[y][x] = 1;
+    }
 }
