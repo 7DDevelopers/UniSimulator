@@ -16,6 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 
+import java.awt.*;
+
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main implements ApplicationListener {
     FitViewport viewport;
@@ -31,7 +33,7 @@ public class Main implements ApplicationListener {
     public TileManager tileManager;
 
     private SpriteBatch batch;
-
+    private BuildingMenu buildingMenu;
     public int STAGE = 0;
     private Stage startMenuStage;
     private Skin skin;
@@ -70,6 +72,7 @@ public class Main implements ApplicationListener {
             public void clicked(InputEvent event, float x, float y) {
                 // Change the stage when the start button is clicked
                 STAGE = 1;
+                buildingMenu = new BuildingMenu(skin, new Stage(new ScreenViewport()), Main.this);
                 Gdx.input.setInputProcessor(inputManager);  // Set InputManager for the game stage
                 System.out.println("Game State changed to: " + STAGE);
             }
@@ -88,6 +91,7 @@ public class Main implements ApplicationListener {
         if (STAGE == 0) {
             renderStartMenu();
         } else if (STAGE == 1) {
+            Gdx.input.setInputProcessor(buildingMenu.getStage());
             renderMainGame();
         }
     }
@@ -138,6 +142,15 @@ public class Main implements ApplicationListener {
         for (int i = 0; i < inputManager.people.size(); i++) {
             inputManager.people.get(i).render(batch);
         }
+
+        // Render tiles and buildings
+        tileManager.RenderTiles(batch);
+        for (Building building : tileManager.getBuildings()) {
+            building.render(batch);
+        }
+
+        buildingMenu.getStage().act(Gdx.graphics.getDeltaTime());
+        buildingMenu.getStage().draw();
     }
 
     @Override

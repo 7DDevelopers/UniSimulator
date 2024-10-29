@@ -1,86 +1,101 @@
 package com.badlogic.drop;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
+import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Source;
+import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;
+import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Target;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class BuildingMenu extends ApplicationAdapter {
+
+public class BuildingMenu {
     private Stage stage;
-    private Table menuTable;
-    private boolean isMenuVisible = false;
-    private float menuWidth = 200f; // Width of the menu
-    private float menuSpeed = 5f;   // Speed of menu sliding
+    private Skin skin;
+    private DragAndDrop dragAndDrop;
+    private Image buildingAsset1;
+    private Image buildingAsset2;
+    private Main main;  // Reference to Main class for TileManager access
+    private Actor dropTargetActor;
 
-    @Override
-    public void create() {
-        stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(stage);
+    public BuildingMenu(Skin skin, Stage stage, Main main) {
+        this.skin = skin;
+        this.stage = stage;
+        this.main = main;
+        this.dragAndDrop = new DragAndDrop();
 
-        // Skin for UI elements
-        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+        // Load textures for assets
+        buildingAsset1 = new Image(new Texture("lectureHall.png"));
+        buildingAsset2 = new Image(new Texture("pub.png"));
 
-        // Button to open/close the menu
-        TextButton toggleButton = new TextButton("Menu", skin);
-        toggleButton.setPosition(100, 100);
-        toggleButton.addListener(new ClickListener() {
+        setupMenu();
+        setupDragAndDrop();
+    }
+
+    private void setupMenu() {
+        Table table = new Table();
+        table.setFillParent(true);
+        table.top().left();  // Place menu at top-left corner
+
+        // Add assets to the table
+        table.add(buildingAsset1).size(100, 100).pad(10);
+        table.row();
+        table.add(buildingAsset2).size(100, 100).pad(10);
+
+        stage.addActor(table);
+        // Create a drop target actor representing the map area
+        dropTargetActor = new Actor();
+        dropTargetActor.setBounds(0, 0, stage.getWidth(), stage.getHeight());  // Set size to cover map area
+        stage.addActor(dropTargetActor);
+    }
+
+    private void setupDragAndDrop() {
+        // Define draggable items for both assets
+        createDragSource(buildingAsset1, "building1.png");
+        createDragSource(buildingAsset2, "building2.png");
+
+        // Define drop target for the game world
+        dragAndDrop.addTarget(new Target(dropTargetActor) {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                isMenuVisible = !isMenuVisible; // Toggle menu visibility
+            public boolean drag(Source source, Payload payload, float x, float y, int pointer) {
+                return true;  // Allow drop anywhere on the map
+            }
+
+            @Override
+            public void drop(Source source, Payload payload, float x, float y, int pointer) {
+                Vector2 worldCoords = main.viewport.unproject(new Vector2(x, y));  // Convert to world coordinates
+                String textureLocation = (String) payload.getObject();
+
+                // Create a new Building at the drop location with the specified texture
+                Building building = new Building(worldCoords.x, worldCoords.y, textureLocation);
+                main.tileManager.addBuilding(building);
             }
         });
-
-        // Create the menu table
-        menuTable = new Table();
-        menuTable.setVisible(false); // Start with menu hidden
-        menuTable.setWidth(menuWidth);
-        menuTable.setHeight(Gdx.graphics.getHeight());
-        menuTable.setPosition(Gdx.graphics.getWidth(), 0); // Start off-screen to the right
-
-        // Asset to display (e.g., an image)
-        Texture assetTexture = new Texture(Gdx.files.internal("lectureHall.png"));
-        Image assetImage = new Image(assetTexture);
-        menuTable.add(assetImage).expand().center();
-
-        // Add button and menu to the stage
-        stage.addActor(toggleButton);
-        stage.addActor(menuTable);
     }
 
-    @Override
-    public void render() {
-        // Update menu position
-        if (isMenuVisible) {
-            // Slide in from the right
-            if (menuTable.getX() > Gdx.graphics.getWidth() - menuWidth) {
-                menuTable.setPosition(menuTable.getX() - menuSpeed, 0);
-            } else {
-                menuTable.setPosition(Gdx.graphics.getWidth() - menuWidth, 0);
-            }
-            menuTable.setVisible(true);
-        } else {
-            // Slide out to the right
-            if (menuTable.getX() < Gdx.graphics.getWidth()) {
-                menuTable.setPosition(menuTable.getX() + menuSpeed, 0);
-            } else {
-                menuTable.setVisible(false);
-            }
-        }
+    private void createDragSource(final Image asset, final String textureLocation) {
+        dragAndDrop.addSource(new Source(asset) {
+            @Override
+            public Payload dragStart(InputEvent event, float x, float y, int pointer) {
+                Payload payload = new Payload();
+                payload.setObject(textureLocation);  // Store texture location in payload
 
-        // Clear the screen and draw the stage
-        stage.act(Gdx.graphics.getDeltaTime());
-        stage.draw();
+                // Optionally add visuals for drag-and-drop
+                Image dragActor = new Image(asset.getDrawable());
+                dragActor.setSize(80, 80); // Resize as needed
+                payload.setDragActor(dragActor);
+                return payload;
+            }
+        });
     }
 
-    @Override
-    public void dispose() {
-        stage.dispose();
+    public Stage getStage() {
+        return stage;
     }
 }

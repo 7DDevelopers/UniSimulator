@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TileManager {
 
@@ -42,6 +44,19 @@ public class TileManager {
         }
     }
 
+    public void addBuilding(Building building) {
+        buildings.add(building);
+    }
+
+    public List<Building> getBuildings() {
+        return buildings;
+    }
+
+    public void renderBuildings(SpriteBatch batch) {
+        for (Building building : buildings) {
+            building.render(batch);
+        }
+    }
     public void LockTile(int x, int y){
         grid[y][x] = 1;
     }
