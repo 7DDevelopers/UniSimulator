@@ -1,98 +1,57 @@
 package com.badlogic.drop;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
-import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Source;
-import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;
-import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Target;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
+import java.util.concurrent.TimeoutException;
 
 public class BuildingMenu {
     private Stage stage;
     private Skin skin;
-    private DragAndDrop dragAndDrop;
-    private Image buildingAsset1;
-    private Image buildingAsset2;
-    private Main main;  // Reference to Main class for TileManager access
-    private Actor dropTargetActor;
+    private InputManager inputManager;  // Reference to the GameState class
 
-    public BuildingMenu(Skin skin, Stage stage, Main main) {
+    public BuildingMenu(Skin skin, InputManager inputManager) {
         this.skin = skin;
-        this.stage = stage;
-        this.main = main;
-        this.dragAndDrop = new DragAndDrop();
-
-        // Load textures for assets
-        buildingAsset1 = new Image(new Texture("lectureHall.png"));
-        buildingAsset2 = new Image(new Texture("pub.png"));
+        this.inputManager =  inputManager;
+        this.stage = new Stage();
 
         setupMenu();
-        setupDragAndDrop();
     }
 
     private void setupMenu() {
         Table table = new Table();
         table.setFillParent(true);
-        table.top().left();  // Place menu at top-left corner
-
-        // Add assets to the table
-        table.add(buildingAsset1).size(100, 100).pad(10);
-        table.row();
-        table.add(buildingAsset2).size(100, 100).pad(10);
-
+        table.top().right();
         stage.addActor(table);
-        // Create a drop target actor representing the map area
-        dropTargetActor = new Actor();
-        dropTargetActor.setBounds(0, 0, stage.getWidth(), stage.getHeight());  // Set size to cover map area
-        stage.addActor(dropTargetActor);
+
+        // Define your assets and their corresponding actions
+        String[] assetNames = {"Lecture Hall", "Accommodation", "Pub", "Gym", "Lab"};
+        int[] assetValues = {1, 2, 3, 4, 5}; // Values to change in GameState
+
+        for (int i = 0; i < assetNames.length; i++) {
+            TextButton button = new TextButton(assetNames[i], skin);
+            final int index = i;  // To use in the listener
+            button.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    inputManager.setVariable(assetValues[index]);  // Change variable in GameState
+                    System.out.println(assetNames[index] + " clicked, variable set to " + assetValues[index]);
+                }
+            });
+            table.add(button).pad(10).fillX();
+            table.row(); // Move to next row
+        }
     }
 
-    private void setupDragAndDrop() {
-        // Define draggable items for both assets
-        createDragSource(buildingAsset1, "building1.png");
-        createDragSource(buildingAsset2, "building2.png");
-
-        // Define drop target for the game world
-        dragAndDrop.addTarget(new Target(dropTargetActor) {
-            @Override
-            public boolean drag(Source source, Payload payload, float x, float y, int pointer) {
-                return true;  // Allow drop anywhere on the map
-            }
-
-            @Override
-            public void drop(Source source, Payload payload, float x, float y, int pointer) {
-                Vector2 worldCoords = main.viewport.unproject(new Vector2(x, y));  // Convert to world coordinates
-                String textureLocation = (String) payload.getObject();
-
-                // Create a new Building at the drop location with the specified texture
-                Building building = new Building(worldCoords.x, worldCoords.y, textureLocation);
-                main.tileManager.addBuilding(building);
-            }
-        });
-    }
-
-    private void createDragSource(final Image asset, final String textureLocation) {
-        dragAndDrop.addSource(new Source(asset) {
-            @Override
-            public Payload dragStart(InputEvent event, float x, float y, int pointer) {
-                Payload payload = new Payload();
-                payload.setObject(textureLocation);  // Store texture location in payload
-
-                // Optionally add visuals for drag-and-drop
-                Image dragActor = new Image(asset.getDrawable());
-                dragActor.setSize(80, 80); // Resize as needed
-                payload.setDragActor(dragActor);
-                return payload;
-            }
-        });
+    public void render(SpriteBatch spriteBatch) {
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
     }
 
     public Stage getStage() {

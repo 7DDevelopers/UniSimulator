@@ -64,6 +64,24 @@ public class InputManager implements InputProcessor {
         return false;
     }
 
+    public boolean setVariable(int c){
+        switch (c){
+            //Numbers
+            case '1':
+                buildingNum = 0;
+                break;
+            case '2':
+                buildingNum = 1;
+                break;
+            case '3':
+                buildingNum = 2;
+                break;
+            default:
+                break;
+        }
+        return false;
+    }
+
     @Override
     public boolean touchUp(int i, int i1, int i2, int i3) {
         Vector3 clickPos = viewport.unproject(new Vector3(i,i1,0));
@@ -97,7 +115,7 @@ public class InputManager implements InputProcessor {
             }
 
             Building newBuilding = new Building((int) clickPos.x * 40, (int) clickPos.y * 40, buildingTexture);
-            tileManager.buildings.add(newBuilding);
+            tileManager.addBuilding(newBuilding);
         }
 
         return false;

@@ -33,11 +33,11 @@ public class Main implements ApplicationListener {
     public TileManager tileManager;
 
     private SpriteBatch batch;
-    private BuildingMenu buildingMenu;
     public int STAGE = 0;
     private Stage startMenuStage;
     private Skin skin;
     private OrthographicCamera camera;
+    public BuildingMenu buildingMenu;
 
     @Override
     public void create() {
@@ -72,8 +72,9 @@ public class Main implements ApplicationListener {
             public void clicked(InputEvent event, float x, float y) {
                 // Change the stage when the start button is clicked
                 STAGE = 1;
-                buildingMenu = new BuildingMenu(skin, new Stage(new ScreenViewport()), Main.this);
                 Gdx.input.setInputProcessor(inputManager);  // Set InputManager for the game stage
+                buildingMenu = new BuildingMenu(skin, inputManager);
+                Gdx.input.setInputProcessor(buildingMenu.getStage());
                 System.out.println("Game State changed to: " + STAGE);
             }
         });
@@ -91,7 +92,6 @@ public class Main implements ApplicationListener {
         if (STAGE == 0) {
             renderStartMenu();
         } else if (STAGE == 1) {
-            Gdx.input.setInputProcessor(buildingMenu.getStage());
             renderMainGame();
         }
     }
@@ -122,7 +122,7 @@ public class Main implements ApplicationListener {
 
         // Render the tiles
         tileManager.RenderTiles(batch);
-
+        buildingMenu.render(batch);
         // Update and render the timer
         timerValue -= Gdx.graphics.getDeltaTime();
         int time = Math.round(timerValue);
@@ -149,8 +149,7 @@ public class Main implements ApplicationListener {
             building.render(batch);
         }
 
-        buildingMenu.getStage().act(Gdx.graphics.getDeltaTime());
-        buildingMenu.getStage().draw();
+
     }
 
     @Override
