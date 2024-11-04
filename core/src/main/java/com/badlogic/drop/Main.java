@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.InputMultiplexer;
 
 import java.awt.*;
 
@@ -38,6 +39,8 @@ public class Main implements ApplicationListener {
     private Skin skin;
     private OrthographicCamera camera;
     public BuildingMenu buildingMenu;
+    private InputMultiplexer inputMultiplexer;
+
 
     @Override
     public void create() {
@@ -58,8 +61,10 @@ public class Main implements ApplicationListener {
         // Setup start menu stage
         setupStartMenu();
 
-        // Set initial input processor to the start menu stage
-        Gdx.input.setInputProcessor(startMenuStage);
+        // Initialize InputMultiplexer but set only the start menu initially
+        inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(startMenuStage);
+        Gdx.input.setInputProcessor(inputMultiplexer);
     }
     private void setupStartMenu() {
         startMenuStage = new Stage(new ScreenViewport());
@@ -72,10 +77,11 @@ public class Main implements ApplicationListener {
             public void clicked(InputEvent event, float x, float y) {
                 // Change the stage when the start button is clicked
                 STAGE = 1;
-                Gdx.input.setInputProcessor(inputManager);  // Set InputM   anager for the game stage
                 buildingMenu = new BuildingMenu(skin, inputManager);
-                Gdx.input.setInputProcessor(buildingMenu.getStage());
-                System.out.println("Game State changed to: " + STAGE);
+                inputMultiplexer.clear();
+                inputMultiplexer.addProcessor(buildingMenu.getStage());
+                inputMultiplexer.addProcessor(inputManager);
+                Gdx.input.setInputProcessor(inputMultiplexer);
             }
         });
 

@@ -40,8 +40,8 @@ public class BuildingMenu {
             button.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    inputManager.setVariable(assetValues[index]);  // Change variable in GameState
-                    System.out.println(assetNames[index] + " clicked, variable set to " + assetValues[index]);
+                    inputManager.updateBuildingNum(assetValues[index]);
+                    // variable in GameState
                 }
             });
             table.add(button).pad(10).fillX();

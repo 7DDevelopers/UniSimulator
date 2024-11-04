@@ -20,6 +20,8 @@ public class InputManager implements InputProcessor {
 
     public ArrayList<Person> people = new ArrayList<Person>();
 
+    BuildingMenu buildingMenu;
+
     public InputManager(FitViewport viewport, OrthographicCamera cam){
         this.cam = cam;
         this.viewport = viewport;
@@ -33,6 +35,12 @@ public class InputManager implements InputProcessor {
     @Override
     public boolean keyUp(int i) {
         return false;
+    }
+
+    // Method to update buildingNum based on button clicked
+    public void updateBuildingNum(int newBuildingNum) {
+        buildingNum = newBuildingNum;
+        System.out.println("Building number updated to: " + buildingNum);
     }
 
     @Override
