@@ -21,7 +21,12 @@ public class InputManager implements InputProcessor {
     public ArrayList<Person> people = new ArrayList<Person>();
 
     BuildingMenu buildingMenu;
-
+    public int lectureCount = 0;
+    public int accommodationCount = 0;
+    public int restaurantCount=  0;
+    public int gymCount = 0;
+    public int labCount = 0;
+    public int pathCount = 0;
     public InputManager(FitViewport viewport, OrthographicCamera cam){
         this.cam = cam;
         this.viewport = viewport;
@@ -96,24 +101,13 @@ public class InputManager implements InputProcessor {
         clickPos = new Vector3((int)Math.floor(clickPos.x / 40), (int)Math.floor(clickPos.y / 40), 0);
 
         //System.out.println((int)clickPos.x + "," + (int)clickPos.y);
-        if ((buildingNum != 2 && (tileManager.grid[(int) clickPos.y][(int) clickPos.x] != 1 &&
+        if ((buildingNum != 6 && (tileManager.grid[(int) clickPos.y][(int) clickPos.x] != 1 &&
             tileManager.grid[(int) clickPos.y + 1][(int) clickPos.x + 1] != 1 &&
             tileManager.grid[(int) clickPos.y + 1][(int) clickPos.x] != 1 &&
-            tileManager.grid[(int) clickPos.y][(int) clickPos.x + 1] != 1)) || (buildingNum == 2 && (tileManager.grid[(int) clickPos.y][(int) clickPos.x] != 1))) {
+            tileManager.grid[(int) clickPos.y][(int) clickPos.x + 1] != 1)) || (buildingNum == 6 && (tileManager.grid[(int) clickPos.y][(int) clickPos.x] != 1))) {
             String buildingTexture = "";
 
-            switch (buildingNum) {
-                case 1:
-                    buildingTexture = "pub.png";
-                    break;
-                case 2:
-                    buildingTexture = "path.png";
-                    break;
-                default:
-                    buildingTexture = "lectureHall.png";
-            }
-
-            if(buildingNum != 2) {
+            if(buildingNum != 6) {
                 tileManager.LockTile((int) clickPos.x, (int) clickPos.y);
                 tileManager.LockTile((int) clickPos.x+1, (int) clickPos.y);
                 tileManager.LockTile((int) clickPos.x+1, (int) clickPos.y+1);
@@ -122,8 +116,50 @@ public class InputManager implements InputProcessor {
                 tileManager.LockTile((int) clickPos.x, (int) clickPos.y);
             }
 
-            Building newBuilding = new Building((int) clickPos.x * 40, (int) clickPos.y * 40, buildingTexture);
-            tileManager.addBuilding(newBuilding);
+            Building newBuilding = null;
+            switch (buildingNum) {
+                case 1:
+                    buildingTexture = "lectureHall.png";
+                    newBuilding = new Building((int) clickPos.x * 40, (int) clickPos.y * 40, buildingTexture, "LECTUREHALL");
+                    tileManager.addBuilding(newBuilding);
+                    lectureCount += 1;
+                    break;
+                case 2:
+                    buildingTexture = "accommodation.png";
+                    newBuilding = new Building((int) clickPos.x * 40, (int) clickPos.y * 40, buildingTexture, "ACCOMMODATION");
+                    tileManager.addBuilding(newBuilding);
+                    accommodationCount += 1;
+                    break;
+                case 3:
+                    buildingTexture = "pub.png";
+                    newBuilding = new Building((int) clickPos.x * 40, (int) clickPos.y * 40, buildingTexture, "RESTAURANT");
+                    tileManager.addBuilding(newBuilding);
+                    restaurantCount +=1;
+                    break;
+                case 4:
+                    buildingTexture = "gym.png";
+                    newBuilding = new Building((int) clickPos.x * 40, (int) clickPos.y * 40, buildingTexture, "GYM");
+                    tileManager.addBuilding(newBuilding);
+                    gymCount +=1;
+                    break;
+                case 5:
+                    buildingTexture = "lab.png";
+                    newBuilding = new Building((int) clickPos.x * 40, (int) clickPos.y * 40, buildingTexture, "LAB");
+                    tileManager.addBuilding(newBuilding);
+                    labCount += 1;
+                    break;
+                case 6:
+                    buildingTexture = "path.png";
+                    newBuilding = new Building((int) clickPos.x * 40, (int) clickPos.y * 40, buildingTexture, "PATH");
+                    tileManager.addBuilding(newBuilding);
+                    pathCount +=1;
+                    break;
+                default:
+                    break;
+
+            }
+
+
         }
 
         return false;

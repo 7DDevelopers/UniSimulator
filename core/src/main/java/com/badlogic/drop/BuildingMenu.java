@@ -31,8 +31,8 @@ public class BuildingMenu {
         stage.addActor(table);
 
         // Define your assets and their corresponding actions
-        String[] assetNames = {"Lecture Hall", "Accommodation", "Pub", "Gym", "Lab"};
-        int[] assetValues = {1, 2, 3, 4, 5}; // Values to change in GameState
+        String[] assetNames = {"Lecture Hall", "Accommodation", "Pub", "Gym", "Lab", "Path"};
+        int[] assetValues = {1, 2, 3, 4, 5, 6}; // Values to change in GameState
 
         for (int i = 0; i < assetNames.length; i++) {
             TextButton button = new TextButton(assetNames[i], skin);

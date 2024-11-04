@@ -57,7 +57,11 @@ public class Main implements ApplicationListener {
 
         tileManager = new TileManager(48, 27);
         inputManager.tileManager = tileManager;
-
+        for (int x=47; x>42; x--){
+            for (int y = 26; y>20; y--){
+                tileManager.LockTile(x, y);
+            }
+        }
         // Setup start menu stage
         setupStartMenu();
 
@@ -89,7 +93,7 @@ public class Main implements ApplicationListener {
         Table table = new Table();
         table.setFillParent(true);
         table.center();
-        table.add(startButton).width(200).height(60);
+        table.add(startButton).width(500).height(500);
         startMenuStage.addActor(table);
     }
 
@@ -138,12 +142,19 @@ public class Main implements ApplicationListener {
         font.draw(batch,time < 60 ? ("" + time) : ("" + time / 60 + ":" + (time % 60 != 0 ? (time % 60) : "00")), 250, 250);
         batch.end();
 
-        //Building count
         batch.begin();
         BitmapFont buildingFont = new BitmapFont();
-        buildingFont.getData().setScale(5, 5);
-        buildingFont.draw(batch, "Buildings: " + tileManager.buildings.size(), 250, 960);
+        buildingFont.getData().setScale(3.5f, 3.5f);
+        buildingFont.draw(batch, "Lecture Halls: " + inputManager.lectureCount + "\n" +
+                "Accomodations: " + inputManager.accommodationCount + "\n" +
+                "Labs: " + inputManager.labCount + "\n" +
+                "Restaurants: " + inputManager.restaurantCount + "\n" +
+                "Gyms: " + inputManager.gymCount + "\n" +
+                "Paths: " + inputManager.pathCount
+
+            , 75, 1000);
         batch.end();
+
 
         for (int i = 0; i < inputManager.people.size(); i++) {
             inputManager.people.get(i).render(batch);
