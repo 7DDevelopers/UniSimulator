@@ -72,7 +72,7 @@ public class Main implements ApplicationListener {
             public void clicked(InputEvent event, float x, float y) {
                 // Change the stage when the start button is clicked
                 STAGE = 1;
-                Gdx.input.setInputProcessor(inputManager);  // Set InputManager for the game stage
+                Gdx.input.setInputProcessor(inputManager);  // Set InputM   anager for the game stage
                 buildingMenu = new BuildingMenu(skin, inputManager);
                 Gdx.input.setInputProcessor(buildingMenu.getStage());
                 System.out.println("Game State changed to: " + STAGE);
