@@ -96,11 +96,26 @@ public class InputManager implements InputProcessor {
     }
 
     @Override
-    public boolean touchUp(int i, int i1, int i2, int i3) {
-        Vector3 clickPos = viewport.unproject(new Vector3(i,i1,0));
-        clickPos = new Vector3((int)Math.floor(clickPos.x / 40), (int)Math.floor(clickPos.y / 40), 0);
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        // Convert screen coordinates to world coordinates
+        Vector3 clickPos = viewport.unproject(new Vector3(screenX, screenY, 0));
 
-        //System.out.println((int)clickPos.x + "," + (int)clickPos.y);
+        // Calculate the grid coordinates based on gridSize
+        int gridX = (int) Math.floor(clickPos.x / 40);
+        int gridY = (int) Math.floor(clickPos.y / 40);
+
+        // Debug output to help identify issues
+        System.out.println("Screen click at: (" + screenX + ", " + screenY + ")");
+        System.out.println("World coordinates: (" + clickPos.x + ", " + clickPos.y + ")");
+        System.out.println("Grid coordinates: (" + gridX + ", " + gridY + ")");
+
+        //Vector3 clickPos = viewport.unproject(new Vector3(i,i1,0));
+        clickPos = new Vector3((int)Math.floor(clickPos.x / 40), (int)Math.floor(clickPos.y / 40), 0);
+        // Boundary check
+        if (gridX < 0 || gridX >= tileManager.width || gridY < 0 || gridY >= tileManager.height) {
+            System.out.println("Click is outside the grid bounds.");
+            return false;
+        }
         if ((buildingNum != 6 && (tileManager.grid[(int) clickPos.y][(int) clickPos.x] != 1 &&
             tileManager.grid[(int) clickPos.y + 1][(int) clickPos.x + 1] != 1 &&
             tileManager.grid[(int) clickPos.y + 1][(int) clickPos.x] != 1 &&
